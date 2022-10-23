@@ -1,0 +1,22 @@
+{
+    "dns": {
+        "example.com": {
+            "api_key": "ASFGUGYUuhah8sd82hhe29gdygq9h8d",
+            "email": "admin@example.com",
+            "zone_id": "bbfaggew3gqwd5qwd6ff11212",
+            "edit": true
+        },
+        "example2.com": {
+            "api_key": "Aasfafa12eedASDASFqah8d",
+            "email": "admin@example.com",
+            "zone_id": "bbfaggewadsgasdfwhhiasffa",
+            "edit": true
+        }
+    },
+    "auth": {
+        "access_token": "gaSDGFg23hoihiujhiJJjKJUY"
+    },
+    "general": {
+        "valid_period": 120
+    }
+}
