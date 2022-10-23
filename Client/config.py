@@ -1,7 +1,7 @@
 import os
 import json
 
-CFG_FILE_PATH = os.path.join(os.path.dirname(__file__), 'config.json')
+CFG_FILE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.json')
 
 
 class Config:

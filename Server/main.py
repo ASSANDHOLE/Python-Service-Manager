@@ -227,7 +227,6 @@ def main():
         return
     registered_services = RegisteredServices()
     registered_services.load()
-    print(config.access_token)
     server = Server(__name__, config, registered_services)
     server.run()
 

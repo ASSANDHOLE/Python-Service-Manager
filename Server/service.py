@@ -5,7 +5,7 @@ from data import Service, ServiceType
 
 from utils import DataclassEnumJSONEncoder
 
-DATA_STORE_PATH = os.path.join(os.path.dirname(__file__), 'data_store.json')
+DATA_STORE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data_store.json')
 
 
 class RegisteredServices:
@@ -33,7 +33,6 @@ class RegisteredServices:
 
     def register_service(self, name: str, service: Service):
         self.services[name] = service
-        print(self.services)
         self.save()
 
     def unregister_service(self, name: str, service_type: ServiceType):
