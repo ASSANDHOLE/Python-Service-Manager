@@ -38,7 +38,7 @@ class Server:
         self.registered_services = registered_services
         self.app = FlaskAppWrapper(name)
         self.app.add_endpoint('/api/srv/reg', 'register_service', self.register_service, ['POST'])
-        self.app.add_endpoint('/api/srv/renew', 'get_dns_record', self.get_dns_record, ['POST'])
+        self.app.add_endpoint('/api/srv/renew', 'renew_service', self.renew_service, ['POST'])
         self.app.add_endpoint('/api/dns/get', 'get_dns_record', self.get_dns_record, ['GET', 'POST'])
         self.app.add_endpoint('/api/dns/add', 'add_(or_update)_dns_record', self.add_or_update_dns_record, ['POST'])
         self.app.add_endpoint('/api/dns/update', '(add_or_)update_dns_record', self.add_or_update_dns_record, ['POST'])
@@ -84,7 +84,23 @@ class Server:
         valid = bool(values['valid'])
         description = values.get('description', '')
         data = values.get('data', {})
-        return self._register_service(name, service_type, description, data)
+        return self._register_service(name, service_type, description, valid, data)
+
+    def renew_service(self) -> Response:
+        values = request.get_json()
+        token = values.get('token', 'none')
+        if not self.config.evaluate_access_token(token):
+            return Response('Unauthorized', status=401)
+        name = values['name']
+        service_type = ServiceType(values['type'])
+        valid = bool(values['valid'])
+        if not self.registered_services.is_registered(name, service_type):
+            return Response('Service not registered', status=404)
+        srv = self.registered_services.get_service(name)
+        if valid:
+            srv.valid_until = int(time.time() + self.config.valid_period)
+        srv.valid = valid
+        return Response('Service renewed', status=200)
 
     def get_dns_record(self) -> Response:
         res = self._auth_get_dom()

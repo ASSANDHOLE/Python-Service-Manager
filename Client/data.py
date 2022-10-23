@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 
+import evaluate
+
 
 class ServiceType(str, Enum):
     """
@@ -31,6 +33,17 @@ class ServiceType(str, Enum):
     ROBOT = 'robot'
 
 
+METHODS = {
+    'systemd': evaluate.get_systemd_service_status,
+    'http': evaluate.http_get,
+    'https': evaluate.http_get,
+    'ping': evaluate.ping_test,
+    'dns': evaluate.dns_equals_this,
+    'file': evaluate.file_exists,
+    'pid': evaluate.check_pid,
+}
+
+
 @dataclass
 class Service:
     """
@@ -44,7 +57,7 @@ class Service:
         Service type
     description : str = ''
         Service description
-    valid_interval : int = 0
+    valid_period : int = 0
         Service valid interval (in seconds)
     valid_until : int = 0
         Service valid until
@@ -57,7 +70,7 @@ class Service:
     name: str
     type: ServiceType
     description: str = ''
-    valid_interval: int = 0
+    valid_period: int = 0
     valid_until: int = 0
     data: dict = None
     method: dict = None

@@ -1,0 +1,67 @@
+{
+    "general": {
+        "server": {
+            "url": "https://service.example.com"
+        },
+        "local": {
+            "sleep_interval": 10,
+            "require_root": false
+        }
+    },
+    "auth": {
+        "access_token": "gaSDGFg23hoihiujhiJJjKJUY"
+    },
+    "services": [
+        {
+            "name": "file_server",
+            "type": "https",
+            "description": "file server at https://file.example.com",
+            "data": {},
+            "valid_period": 60,
+            "method": {
+                "name": "systemd",
+                "param": ["file_server.service"]
+            }
+        },
+        {
+            "name": "file_server_admin",
+            "type": "https",
+            "description": "file server admin at https://admin.example.com",
+            "data": {
+                "username": "user",
+                "password": "pass"
+            },
+            "valid_period": 60,
+            "method": {
+                "name": "systemd",
+                "param": ["server_admin.service"]
+            }
+        },
+        {
+            "name": "telegram_bot",
+            "type": "robot",
+            "description": "Telegram bot, @example_bot",
+            "data": {
+                "token": "123456678:ASDASDFFASFASF2daqfa"
+            },
+            "valid_period": 60,
+            "method": {
+                "name": "systemd",
+                "param": ["tg_bot.service"]
+            }
+        },
+        {
+            "name": "file_server_dns",
+            "type": "dns",
+            "description": "DNS settings for file.example.com, check if equals local ip, if not try change it",
+            "data": {
+                "domain": "file.example.com"
+            },
+            "valid_period": 300,
+            "method": {
+                "name": "dns",
+                "param": ["file.example.com", 4]
+            }
+        }
+    ]
+}
